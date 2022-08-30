@@ -1,9 +1,13 @@
+import java.util.Scanner;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 public class Client
 {
+    private static final Scanner sc = new Scanner(System.in);
     public static void main(String[] args)
     {
         java.util.List<String> extraArgs = new java.util.ArrayList<>();
-
+        
         try(com.zeroc.Ice.Communicator communicator = com.zeroc.Ice.Util.initialize(args,"config.client",extraArgs))
         {
             //com.zeroc.Ice.ObjectPrx base = communicator.stringToProxy("SimplePrinter:default -p 10000");
@@ -16,7 +20,25 @@ public class Client
             {
                 throw new Error("Invalid proxy");
             }
-            printer.printString("Hello World!");
+
+            String hn = "unknown host adress: ";
+            try{
+                InetAddress addr;
+                addr = InetAddress.getLocalHost();
+                String hostname = addr.getHostName();
+                hn = hostname+": ";
+            }catch(UnknownHostException e){
+                System.out.print("unknown host adress: ");
+            }
+            
+            String out = "";
+            while (!out.equals("exit")){
+                System.out.print(hn);
+                out = sc.nextLine();
+                printer.printString(out);
+                
+            }
+            
         }
     }
 }
