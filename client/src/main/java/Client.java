@@ -35,7 +35,7 @@ public class Client
             while (!out.equals("exit")){
                 System.out.print(hn);
                 out = sc.nextLine();
-                printer.printString(out);
+                printer.printString(hn+out);
                 
             }
             
