@@ -14,7 +14,7 @@ public class Client
             Demo.PrinterPrx twoway = Demo.PrinterPrx.checkedCast(
                 communicator.propertyToProxy("Printer.Proxy")).ice_twoway().ice_secure(false);
             //Demo.PrinterPrx printer = Demo.PrinterPrx.checkedCast(base);
-            Demo.PrinterPrx printer = twoway.ice_oneway();
+            Demo.PrinterPrx printer = twoway;
 
             if(printer == null)
             {
@@ -35,7 +35,7 @@ public class Client
             while (!out.equals("exit")){
                 System.out.print(hn);
                 out = sc.nextLine();
-                printer.printString(hn+out);
+                System.out.println(printer.printString(hn+out));
                 
             }
             
