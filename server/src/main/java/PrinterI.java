@@ -1,6 +1,8 @@
+
+import java.math.BigInteger;
 public class PrinterI implements Demo.Printer
 {
-    public long printString(String s, com.zeroc.Ice.Current current)
+    public String printString(String s, com.zeroc.Ice.Current current)
     {
         String prt[] = s.split(" ");
         String hn = prt[0];
@@ -14,27 +16,27 @@ public class PrinterI implements Demo.Printer
             else System.out.println(s);
         }else System.out.println(s);
 
-        return 0;
+        return "0";
         
     }
 
-    public long fibonacci(long nthNumber) {
+    public String fibonacci(long nthNumber) {
         //use loop
 
 
-        int previouspreviousNumber, previousNumber = 0, currentNumber = 1;
+        BigInteger previouspreviousNumber, previousNumber = BigInteger.valueOf(0), currentNumber = BigInteger.valueOf(1);
 
-        for (int i = 1; i < nthNumber ; i++) {
+        for (int i = 1;   i < nthNumber ; i++) {
 
-            previouspreviousNumber = previousNumber;
+            previouspreviousNumber =  previousNumber ;
 
-            previousNumber = currentNumber;
+            previousNumber =  currentNumber ;
 
-            currentNumber = previouspreviousNumber + previousNumber;
-            System.out.print(currentNumber+" ");
+            currentNumber = previouspreviousNumber.add( previousNumber);
+            System.out.print(currentNumber.toString()+" ");
 
         }
-        return currentNumber;
+        return currentNumber.toString();
     }
 
 }

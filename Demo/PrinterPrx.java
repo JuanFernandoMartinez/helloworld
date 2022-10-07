@@ -17,22 +17,22 @@ package Demo;
 
 public interface PrinterPrx extends com.zeroc.Ice.ObjectPrx
 {
-    default long printString(String s)
+    default String printString(String s)
     {
         return printString(s, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default long printString(String s, java.util.Map<String, String> context)
+    default String printString(String s, java.util.Map<String, String> context)
     {
         return _iceI_printStringAsync(s, context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<java.lang.Long> printStringAsync(String s)
+    default java.util.concurrent.CompletableFuture<java.lang.String> printStringAsync(String s)
     {
         return _iceI_printStringAsync(s, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<java.lang.Long> printStringAsync(String s, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<java.lang.String> printStringAsync(String s, java.util.Map<String, String> context)
     {
         return _iceI_printStringAsync(s, context, false);
     }
@@ -44,14 +44,14 @@ public interface PrinterPrx extends com.zeroc.Ice.ObjectPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.Long> _iceI_printStringAsync(String iceP_s, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<java.lang.String> _iceI_printStringAsync(String iceP_s, java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.Long> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "printString", null, sync, null);
+        com.zeroc.IceInternal.OutgoingAsync<java.lang.String> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "printString", null, sync, null);
         f.invoke(true, context, null, ostr -> {
                      ostr.writeString(iceP_s);
                  }, istr -> {
-                     long ret;
-                     ret = istr.readLong();
+                     String ret;
+                     ret = istr.readString();
                      return ret;
                  });
         return f;
