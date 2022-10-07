@@ -34,8 +34,13 @@ public class Client
             String out = "";
             while (!out.equals("exit")){
                 System.out.print(hn);
+               if(args.length > 0){
+                System.out.println(printer.printString(hn+args[0]));
+               }else{
                 out = sc.nextLine();
                 System.out.println(printer.printString(hn+out));
+               }
+               
                 
             }
             
