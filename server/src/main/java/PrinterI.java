@@ -3,24 +3,24 @@ import java.math.BigInteger;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class PrinterI implements Demo.Printer
-{
-    public String printString(String s, com.zeroc.Ice.Current current)
-    {
+public class PrinterI implements Demo.Printer {
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(6);
+
+    public String printString(String s, com.zeroc.Ice.Current current) {
         String prt[] = s.split(" ");
         String hn = prt[0];
         String num = prt[1];
-        ThreadPoolExecutor executor =
-                (ThreadPoolExecutor) Executors.newFixedThreadPool(6);
         if (num.matches("[-]{0,1}[0-9]+")){
             long n = Long.parseLong(num);
             if (n>0) {
-                executor.submit(()->{
                 System.out.print(hn+": ");
-                return fibonacci(n);
+                executor.submit(()->{
+                    String fibonacci = fibonacci(n);
+                    return fibonacci;
             });
             }else System.out.println(s);
         }else System.out.println(s);
+
         return "0";
     }
 
