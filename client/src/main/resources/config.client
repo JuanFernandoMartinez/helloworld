@@ -12,4 +12,4 @@ Hello.Proxy=hello:ws -p 10002:udp -p 10000:wss -p 10003
 
 # Only listen on the ZeroTier's LIASOn1 interface by default.
 #
-#Ice.Default.Host=hgrid1
+Ice.Default.Host=hgrid1
