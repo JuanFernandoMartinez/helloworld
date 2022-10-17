@@ -7,9 +7,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class PrinterI implements Demo.Printer {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(6);
-    CompletableFuture<Object> completableFuture = new CompletableFuture<>();
+    CompletableFuture<Object> completableFuture;
 
     public String printString(String s, com.zeroc.Ice.Current current) {
+        completableFuture = new CompletableFuture<>();
         try {
             String prt[] = s.split(" ");
             String hn = prt[0];
@@ -27,7 +28,7 @@ public class PrinterI implements Demo.Printer {
                     }).start();
                 } else System.out.println(s);
             } else System.out.println(s);
-
+            System.out.println(completableFuture.get());
             return completableFuture.get().toString();
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
