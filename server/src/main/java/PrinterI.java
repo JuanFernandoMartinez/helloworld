@@ -1,27 +1,39 @@
 
 import java.math.BigInteger;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class PrinterI implements Demo.Printer {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(6);
+    CompletableFuture<Object> completableFuture = new CompletableFuture<>();
 
     public String printString(String s, com.zeroc.Ice.Current current) {
-        String prt[] = s.split(" ");
-        String hn = prt[0];
-        String num = prt[1];
-        if (num.matches("[-]{0,1}[0-9]+")){
-            long n = Long.parseLong(num);
-            if (n>0) {
-                System.out.print(hn+": ");
-                executor.submit(()->{
-                    String fibonacci = fibonacci(n);
-                    return fibonacci;
-            });
-            }else System.out.println(s);
-        }else System.out.println(s);
+        try {
+            String prt[] = s.split(" ");
+            String hn = prt[0];
+            String num = prt[1];
+            if (num.matches("[-]{0,1}[0-9]+")) {
+                long n = Long.parseLong(num);
+                if (n > 0) {
+                    System.out.print(hn + ": ");
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String result = fibonacci(n);
+                            completableFuture.complete(result);
+                        }
+                    }).start();
+                } else System.out.println(s);
+            } else System.out.println(s);
 
-        return "0";
+            return completableFuture.get().toString();
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String fibonacci(long nthNumber) {
