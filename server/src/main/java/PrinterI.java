@@ -6,7 +6,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class PrinterI implements Demo.Printer {
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(6);
+
+    private final int MAX_THREADS = Runtime.getRuntime().availableProcessors();
+
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREADS);
     CompletableFuture<Object> completableFuture;
 
     public String printString(String s, com.zeroc.Ice.Current current) {
@@ -19,13 +22,10 @@ public class PrinterI implements Demo.Printer {
                 long n = Long.parseLong(num);
                 if (n > 0) {
                     System.out.print(hn + ": ");
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
+                    executor.submit(()->{
                             String result = fibonacci(n);
                             completableFuture.complete(result);
-                        }
-                    }).start();
+                    });
                 } else System.out.println(s);
             } else System.out.println(s);
             System.out.println(completableFuture.get());
